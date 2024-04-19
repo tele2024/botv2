@@ -1,0 +1,22 @@
+name: Convert Database to CSV
+
+on: [push]  # Trigger the workflow on a push event to the main branch
+
+jobs:
+  convert-db:
+    runs-on: ubuntu-latest  # Specify the runner environment
+    steps:
+      - uses: actions/checkout@v3  # Checkout your code from the repository
+      - name: Grant write permissions  # Grant write access to temporary storage
+        uses: actions/checkout@v3
+        with:
+          permissions: write  # This grants write access to the runner's temporary storage
+      - name: Use Python 
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'  # Replace with your desired Python version
+    
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run your Python script
+        run: python myBotv2.py  # Replace with your script name
