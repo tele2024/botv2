@@ -3,4 +3,3 @@ pyTelegramBotAPI==4.15.2
 waitress==2.1.2
 flask==3.0.0
 pandas==1.4.4
-
