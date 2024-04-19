@@ -97,30 +97,10 @@ CGAOptlist=["الحوسبة المتوازية في الرسم الحاسوبي"
 CGAOptlistEdt=[]
 concatFirstSum(CGAOptlist, "اسئلة", "ملخص", "كتاب", CGAOptlistEdt)
 
-def get_polling_time_in_seconds(minutes):
-  """Converts minutes to seconds for polling duration."""
-  return minutes * 60
 import time
-def polling_thread(polling_time):
-    start_time = time.time()
-    while (time.time() - start_time) < polling_time:
-        try:
-            bot.process_new_updates([bot.get_updates()])
-        except Exception as e:
-            print(f"Error during polling: {e}")
-        time.sleep(1)  # Adjust sleep time as needed
-
-    print("Polling thread stopped.")
-import threading
 #welcoming user and asks him "How can I help?"
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    polling_time_in_minutes = 5  # Assuming command is 'start <minutes>'
-    polling_time = get_polling_time_in_seconds(polling_time_in_minutes)
-    # Create and start the polling thread
-    polling_thread1 = threading.Thread(target=polling_thread, args=(polling_time,))
-    polling_thread1.start()
-
     bot.send_message(message.chat.id,text="اهلًا"+" "+message.from_user.first_name)
     mainMarkup=ReplyKeyboardMarkup()
     mainbtns=[]
@@ -134,6 +114,13 @@ def send_welcome(message):
             mainbtns=KeyboardButton(mainList[i])
     bot.send_message(message.chat.id,text="كيف يمكنني مساعدتك؟",reply_markup=mainMarkup)
     save_user(message)
+    polling_time_in_minutes = 5  # Set your desired polling duration
+    start_time = time.time()
+    while (time.time() - start_time) < polling_time_in_minutes * 60:
+        try:
+            bot.polling(none_stop=False, timeout=60)  # Poll for messages with a 1-minute timeout
+        except Exception as e:
+            print(f"Error during polling: {e}")
     
     
 def save_user(message):
