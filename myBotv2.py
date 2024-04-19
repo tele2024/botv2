@@ -115,7 +115,7 @@ import threading
 #welcoming user and asks him "How can I help?"
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    polling_time_in_minutes = int(message.text.split()[1])  # Assuming command is 'start <minutes>'
+    polling_time_in_minutes = 5  # Assuming command is 'start <minutes>'
     polling_time = get_polling_time_in_seconds(polling_time_in_minutes)
     # Create and start the polling thread
     polling_thread1 = threading.Thread(target=polling_thread, args=(polling_time,))
