@@ -123,7 +123,7 @@ def save_user(message):
      user=message.chat.username
      conn = connect_to_db()
      create_tables(conn)  
-     insert_users(user_id,user, firstn, lastn)
+     insert_users(conn,user_id,user, firstn, lastn)
      df = fetch_data(conn)
      export_to_csv(df)
      conn.close()
