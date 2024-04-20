@@ -11,7 +11,7 @@ import telebot
 from DBMSv2 import export_to_csv,fetch_data,insert_users,create_tables,connect_to_db
 #from telebot import types
 from telebot.types import KeyboardButton,ReplyKeyboardMarkup,ReplyKeyboardRemove
-import time
+
 #from pydbhelper import DBHelper
 
 bot = telebot.TeleBot(API_KEY)
@@ -4610,6 +4610,10 @@ def send_text(message):
                 print("API Error:", e)
 
 """
+@bot.message_handler(commands=['stop'])
+def stop_handler(message):
+    bot.reply_to(message, "Goodbye! I'm no longer listening for messages.")
+    bot.stop_polling()  # Stop polling for messages
 
 from threading import Thread
 from run_waitress import serve_flask_app  # Import the function from your Waitress script
