@@ -11,7 +11,7 @@ import telebot
 from DBMSv2 import export_to_csv,fetch_data,insert_users,create_tables,connect_to_db
 #from telebot import types
 from telebot.types import KeyboardButton,ReplyKeyboardMarkup,ReplyKeyboardRemove
-
+import time 
 #from pydbhelper import DBHelper
 
 bot = telebot.TeleBot(API_KEY)
@@ -19,6 +19,22 @@ bot = telebot.TeleBot(API_KEY)
 
 """db=DBHelper()
 db.setup()"""
+polling_time_in_minutes = 5  # Set your desired polling duration
+
+polling_active = True  # Flag to control the loop
+start_time = time.time()
+
+while polling_active and (time.time() - start_time) < polling_time_in_minutes * 60:
+    try:
+        bot.polling(none_stop=False, timeout=60)  # Poll for messages with a 1-minute timeout
+    except Exception as e:
+        print(f"Error during polling: {e}")
+    finally:
+        # Optional: Check for stop command within message handlers
+        for message in bot.get_updates():
+            if message.text == '/stop':
+                polling_active = False
+                bot.reply_to(message, "Stopping polling as requested.")
 
 
 def concatFirstSum(listx,x,w,z,listy):
