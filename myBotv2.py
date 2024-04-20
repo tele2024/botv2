@@ -4616,7 +4616,11 @@ def send_text(message):
 
 """
 
-
+@bot.message_handler(commands=['stop'])
+def stop_handler(message):
+    bot.reply_to(message, "Goodbye! I'm no longer listening for messages.")
+    bot.stop_polling()  # Stop polling for messages
+    
 from threading import Thread
 from run_waitress import serve_flask_app  # Import the function from your Waitress script
 
@@ -4625,10 +4629,7 @@ if __name__ == '__main__':
     Thread(target=serve_flask_app).start()
     
 bot.infinity_polling()
-@bot.message_handler(commands=['stop'])
-def stop_handler(message):
-    bot.reply_to(message, "Goodbye! I'm no longer listening for messages.")
-    bot.stop_polling()  # Stop polling for messages
+
 
 
     
