@@ -125,12 +125,21 @@ def save_user(message):
      insert_users(conn,user_id,user, firstn, lastn)
      conn.close()
      
-@bot.message_handler(commands=['export'])  
+@bot.message_handler(commands=['export'])
 def export(message):
-    conn = connect_to_db()
-    df = fetch_data(conn)
-    export_to_csv(df)
-    conn.close()
+    try:
+        bot.polling(none_stop=True, interval=60)  # Start timed polling for 1 minute
+        conn = connect_to_db()
+        df = fetch_data(conn)
+        export_to_csv(df)
+        conn.close()
+    except Exception as e:
+        print(f"Error during database conversion: {e}")
+        bot.reply_to_message(message, "Oops! An error occurred during conversion.")
+    finally:
+        bot.stop_polling()  # Stop polling loop after export
+        bot.reply_to_message(message, "Database successfully converted to CSV!")
+
 
 #checks what he chose
 def showTypes(message):
@@ -4616,10 +4625,7 @@ def send_text(message):
 
 """
 
-@bot.message_handler(commands=['stop'])
-def stop_handler(message):
-    bot.reply_to(message, "Goodbye! I'm no longer listening for messages.")
-    bot.stop_polling()  # Stop polling for messages
+
     
 from threading import Thread
 from run_waitress import serve_flask_app  # Import the function from your Waitress script
