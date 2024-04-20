@@ -123,9 +123,14 @@ def save_user(message):
      conn = connect_to_db()
      create_tables(conn)  
      insert_users(conn,user_id,user, firstn, lastn)
-     df = fetch_data(conn)
-     export_to_csv(df)
      conn.close()
+     
+@bot.message_handler(commands=['export'])  
+def export(message):
+    conn = connect_to_db()
+    df = fetch_data(conn)
+    export_to_csv(df)
+    conn.close()
 
 #checks what he chose
 def showTypes(message):
@@ -4610,10 +4615,7 @@ def send_text(message):
                 print("API Error:", e)
 
 """
-@bot.message_handler(commands=['stop'])
-def stop_handler(message):
-    bot.reply_to(message, "Goodbye! I'm no longer listening for messages.")
-    bot.stop_polling()  # Stop polling for messages
+
 
 from threading import Thread
 from run_waitress import serve_flask_app  # Import the function from your Waitress script
@@ -4623,7 +4625,10 @@ if __name__ == '__main__':
     Thread(target=serve_flask_app).start()
     
 bot.infinity_polling()
-
+@bot.message_handler(commands=['stop'])
+def stop_handler(message):
+    bot.reply_to(message, "Goodbye! I'm no longer listening for messages.")
+    bot.stop_polling()  # Stop polling for messages
 
 
     
