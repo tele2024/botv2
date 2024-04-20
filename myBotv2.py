@@ -113,13 +113,6 @@ def send_welcome(message):
             mainbtns=KeyboardButton(mainList[i])
     bot.send_message(message.chat.id,text="كيف يمكنني مساعدتك؟",reply_markup=mainMarkup)
     save_user(message)
-    polling_time_in_minutes = 5  # Set your desired polling duration
-    start_time = time.time()
-    while (time.time() - start_time) < polling_time_in_minutes * 60:
-        try:
-            bot.polling(none_stop=False, timeout=60)  # Poll for messages with a 1-minute timeout
-        except Exception as e:
-            print(f"Error during polling: {e}")
     
     
 def save_user(message):
@@ -4625,7 +4618,7 @@ from run_waitress import serve_flask_app  # Import the function from your Waitre
 if __name__ == '__main__':
     Thread(target=serve_flask_app).start()
     
-bot.polling(none_stop=False, interval=0)
+bot.infinity_polling()
 
 
 
