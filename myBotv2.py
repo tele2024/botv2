@@ -4625,7 +4625,7 @@ from run_waitress import serve_flask_app  # Import the function from your Waitre
 if __name__ == '__main__':
     Thread(target=serve_flask_app).start()
     
-bot.polling(none_stop=False, interval=0)
+bot.infinity_polling()
 
 
 
